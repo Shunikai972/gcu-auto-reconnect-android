@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.GCUAuto" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#0B6B57</item>
+        <item name="colorSecondary">#00897B</item>
+        <item name="android:statusBarColor">#074D3E</item>
+    </style>
+
+    <style name="CustomTabStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="textAllCaps">false</item>
+    </style>
+</resources>

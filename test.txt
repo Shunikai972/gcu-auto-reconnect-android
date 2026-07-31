@@ -1,0 +1,77 @@
+GCU Auto Connexion 4.0.0 â€” rapport de construction et vÃ©rification
+Date de construction : 2026-07-29
+
+1. Analyse du rapport rÃ©el fourni
+- PrÃ©login CoovaChilli /prelogin observÃ© : OUI
+- Portail exact jard-sur-mer.gcuf.fr observÃ© : OUI
+- Formulaire POST exact dÃ©tectÃ© (challenge, userurl, username, password, button) : OUI
+- RÃ©ponse POST 302 vers /logon observÃ©e : OUI
+- RÃ©sultat ALCASAR res=success observÃ© : OUI
+- RÃ©sultat ALCASAR res=already observÃ© lors du second essai : OUI
+- VÃ©rification Internet HTTP 204 observÃ©e : OUI
+
+2. Fonctionnement implÃ©mentÃ©
+- SÃ©lection d'un rÃ©seau Wi-Fi Android distinct du rÃ©seau mobile.
+- Refus d'envoyer les identifiants hors du sous-rÃ©seau GCU 192.168.182.0/24.
+- Nouveau challenge rÃ©cupÃ©rÃ© Ã  chaque tentative via http://192.168.182.1:3990/prelogin.
+- DNS effectuÃ© sur le rÃ©seau Wi-Fi avec secours DNS direct vers 192.168.182.1.
+- HTTPS natif avec SNI/Host jard-sur-mer.gcuf.fr et vÃ©rification normale du certificat.
+- Formulaire rÃ©ellement analysÃ© avant envoi; aucun champ de challenge n'est rÃ©utilisÃ©.
+- Ã‰tape finale https://jard-sur-mer.gcuf.fr:3991/logon suivie, puis contrÃ´le generate_204.
+- Service au premier plan, nouvelle tentative Ã  l'arrivÃ©e du Wi-Fi et toutes les 10 minutes.
+- Absence de Wi-Fi et Wi-Fi non GCU traitÃ©s comme des Ã©tats d'attente, sans exception fatale.
+- Identifiants chiffrÃ©s par AES/GCM dans Android Keystore.
+
+3. Tests statiques
+- Test du parseur sur 001-portail-intercept.html rÃ©el : PASS
+- Action attendue : https://jard-sur-mer.gcuf.fr/intercept.php
+- Champs attendus : challenge, userurl, username, password, button
+- Identifiant issu du rapport intÃ©grÃ© dans l'APK : NON
+
+4. APK
+- Fichier : GCU-Auto-Connexion-4.0.0.apk
+- Taille : 66118 octets
+- SHA-256 : 16c0f30aeca29bfbc16cd9b163ab5f10027e844efe953b15135086097ffc14e9
+- Package : fr.gcu.jardsurmer.autoconnect
+- Version : 4.0.0 (40000)
+- minSdk : 23
+- targetSdk : 29
+- ActivitÃ© exportÃ©e : MainActivity uniquement
+- Service : AutoConnectService non exportÃ©
+
+5. Signature
+Verifies
+Verified using v1 scheme (JAR signing): true
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=GCU Auto Connexion, OU=Local Build, O=GCU Helper, L=Jard-sur-Mer, C=FR
+Signer #1 certificate SHA-256 digest: 17687e5c194996ce24a72a0b4146edab792f5f0d95fb13e0ee85274928f31bcf
+Signer #1 certificate SHA-1 digest: f89a8ecfef18e44056a473c993cd43f4a1db3374
+Signer #1 certificate MD5 digest: d7d60f6ff789d47d16c86d4507a55576
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 3072
+Signer #1 public key SHA-256 digest: 433450108f4ff26be9cdde1b9014b48a057caeb7fa139cc4b3ec08798498a865
+Signer #1 public key SHA-1 digest: 162d40472366418a7daa34048f3fa282c67644c1
+Signer #1 public key MD5 digest: 1e0cfb58519b7d8b82ad90f26455f6c9
+
+6. Alignement
+Verifying alignment of /mnt/data/GCU-Auto-Connexion-4.0.0.apk (4)...
+      49 AndroidManifest.xml (OK - compressed)
+    1291 res/drawable/ic_launcher.xml (OK - compressed)
+    1796 res/xml/network_security_config.xml (OK - compressed)
+    2072 resources.arsc (OK)
+    3104 classes.dex (OK)
+   53742 META-INF/GCU-AUTO.SF (OK - compressed)
+   54209 META-INF/GCU-AUTO.RSA (OK - compressed)
+   55776 META-INF/MANIFEST.MF (OK - compressed)
+Verification succesful
+
+7. IntÃ©gritÃ© ZIP
+- PASS
+
+Limite honnÃªte
+L'APK a Ã©tÃ© compilÃ©e depuis les sources, liÃ©e, dexÃ©e, alignÃ©e et signÃ©e; son parseur a Ã©tÃ© testÃ© sur le HTML rÃ©el et le flux a Ã©tÃ© reproduit Ã  partir du diagnostic rÃ©ussi. Elle n'a pas pu Ãªtre exÃ©cutÃ©e ici sur un tÃ©lÃ©phone physiquement connectÃ© au Wi-Fi du camping.

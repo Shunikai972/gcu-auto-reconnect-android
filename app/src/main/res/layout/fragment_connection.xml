@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F4F6F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Status Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="18dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="État de la connexion"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#1E282D" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvStatusBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔴"
+                    android:textSize="26sp"
+                    android:paddingEnd="10dp" />
+
+                <TextView
+                    android:id="@+id/tvStatusText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Déconnecté"
+                    android:textSize="19sp"
+                    android:textColor="#232D32"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvLastReconnect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dernière reconnexion : --:--"
+                android:textSize="17sp"
+                android:textColor="#556677"
+                android:paddingTop="8dp" />
+        </LinearLayout>
+
+        <!-- Credentials Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="18dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Identifiants GCU"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#1E282D" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Identifiant"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:paddingTop="12dp"
+                android:paddingBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:hint="Saisissez votre identifiant"
+                android:textSize="19sp"
+                android:singleLine="true"
+                android:padding="12dp"
+                android:background="@android:drawable/editbox_background"
+                android:inputType="textNoSuggestions" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mot de passe"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:paddingTop="12dp"
+                android:paddingBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:hint="Saisissez votre mot de passe"
+                android:textSize="19sp"
+                android:singleLine="true"
+                android:padding="12dp"
+                android:background="@android:drawable/editbox_background"
+                android:inputType="textPassword" />
+
+            <CheckBox
+                android:id="@+id/cbShowPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Afficher le mot de passe"
+                android:textSize="17sp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cbSaveCredentials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sauvegarder dans Android Keystore"
+                android:textSize="17sp"
+                android:checked="true"
+                android:paddingBottom="6dp" />
+        </LinearLayout>
+
+        <!-- Auto Reconnect Switch Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="18dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchAutoReconnect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Auto reconnexion"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#1E282D"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reconnexion automatique toutes les 10 minutes (00, 10, 20, 30, 40, 50 min), même écran éteint."
+                android:textSize="15sp"
+                android:textColor="#556677"
+                android:paddingTop="4dp" />
+        </LinearLayout>
+
+        <!-- Big Action Buttons -->
+        <Button
+            android:id="@+id/btnConnectNow"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:text="SE CONNECTER"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:backgroundTint="#0B6B57"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnClearCredentials"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="Effacer les identifiants"
+            android:textSize="17sp"
+            android:textAllCaps="false"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</ScrollView>

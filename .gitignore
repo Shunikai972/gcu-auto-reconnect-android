@@ -1,0 +1,12 @@
+# Gradle build directories
+.gradle/
+build/
+app/build/
+build-local/
+
+# IDE files
+.idea/
+*.iml
+
+# Local dev tools
+/home/accueil/android-dev/

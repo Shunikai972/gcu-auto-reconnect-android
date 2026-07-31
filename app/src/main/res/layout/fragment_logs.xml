@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F4F6F8">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Journal des Connexions"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#1E282D"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Historique détaillé des tentatives de reconnexion et du diagnostic."
+        android:textSize="15sp"
+        android:textColor="#556677"
+        android:paddingBottom="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <Button
+            android:id="@+id/btnExportDiagnostic"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_weight="2"
+            android:text="Exporter diagnostic ZIP"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:backgroundTint="#0B6B57"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnClearLogs"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_weight="1"
+            android:text="Effacer"
+            android:textSize="17sp"
+            android:textAllCaps="false"
+            android:backgroundTint="#78909C"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLogs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
+
+</LinearLayout>
