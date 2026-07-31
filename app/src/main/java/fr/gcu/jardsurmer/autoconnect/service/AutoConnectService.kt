@@ -18,24 +18,26 @@ import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import fr.gcu.jardsurmer.autoconnect.data.AppState
 import fr.gcu.jardsurmer.autoconnect.data.CredentialStore
-import fr.gcu.jardsurmer.autoconnect.data.LogRepository
 import fr.gcu.jardsurmer.autoconnect.data.NetworkInspector
 import fr.gcu.jardsurmer.autoconnect.data.PortalLoginClient
-import fr.gcu.jardsurmer.autoconnect.model.LogEntry
 import fr.gcu.jardsurmer.autoconnect.model.LoginResult
 import fr.gcu.jardsurmer.autoconnect.ui.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
 class AutoConnectService : Service() {
 
-    private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
+    private val serviceJob = Job()
+    private val serviceScope = CoroutineScope(Dispatchers.IO + serviceJob)
     private val attemptRunning = AtomicBoolean(false)
     private var connectivityManager: ConnectivityManager? = null
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
+    private var periodicTickerJob: Job? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -44,6 +46,7 @@ class AutoConnectService : Service() {
 
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
         registerWifiCallback()
+        startPeriodicTicker()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -58,9 +61,12 @@ class AutoConnectService : Service() {
                 return START_STICKY
             }
             ACTION_CONNECT_NOW -> {
-                setStatus("Connexion manuelle en cours…", isConnected = false)
-                triggerAttempt(oneShot = true, reason = "demande manuelle")
-                return if (AppState.isEnabled(this)) START_STICKY else START_NOT_STICKY
+                AppState.setEnabled(this, true)
+                setStatus("Connexion et auto-reconnexion en cours…", isConnected = false)
+                AlarmReceiver.scheduleNextAlarm(this)
+                AutoConnectWorker.schedulePeriodicWork(this)
+                triggerAttempt(oneShot = false, reason = "demande manuelle")
+                return START_STICKY
             }
             else -> {
                 if (AppState.isEnabled(this)) {
@@ -71,6 +77,19 @@ class AutoConnectService : Service() {
                 }
                 stopSelf()
                 return START_NOT_STICKY
+            }
+        }
+    }
+
+    private fun startPeriodicTicker() {
+        periodicTickerJob?.cancel()
+        periodicTickerJob = serviceScope.launch {
+            while (isActive) {
+                delay(10 * 60 * 1000L) // 10 minutes
+                if (AppState.isEnabled(this@AutoConnectService)) {
+                    AlarmReceiver.scheduleNextAlarm(this@AutoConnectService)
+                    triggerAttempt(oneShot = false, reason = "ticker 10 minutes")
+                }
             }
         }
     }
@@ -123,10 +142,12 @@ class AutoConnectService : Service() {
 
                 when (result) {
                     is LoginResult.Success -> {
-                        setStatus(result.message, isConnected = true)
+                        val msg = if (reason.isNotEmpty() && reason != "activation") "${result.message} ($reason)" else result.message
+                        setStatus(msg, isConnected = true)
                     }
                     is LoginResult.Failure -> {
-                        setStatus(result.message, isConnected = false)
+                        val msg = if (reason.isNotEmpty() && reason != "activation") "${result.message} ($reason)" else result.message
+                        setStatus(msg, isConnected = false)
                     }
                 }
             } finally {
@@ -195,6 +216,8 @@ class AutoConnectService : Service() {
     }
 
     override fun onDestroy() {
+        periodicTickerJob?.cancel()
+        serviceJob.cancel()
         networkCallback?.let {
             try { connectivityManager?.unregisterNetworkCallback(it) } catch (_: Throwable) {}
         }

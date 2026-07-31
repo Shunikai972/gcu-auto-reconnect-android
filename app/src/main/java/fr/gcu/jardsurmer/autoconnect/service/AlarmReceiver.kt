@@ -8,18 +8,22 @@ import android.content.Intent
 import android.os.Build
 import android.os.PowerManager
 import fr.gcu.jardsurmer.autoconnect.data.AppState
+import fr.gcu.jardsurmer.autoconnect.data.CredentialStore
 
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
-        if (!AppState.isEnabled(context)) return
+        val credentials = try { CredentialStore.load(context) } catch (_: Throwable) { null }
+        if (credentials == null || !credentials.isComplete) return
+
+        AppState.setEnabled(context, true)
 
         val power = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
         val wakeLock = power?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "GCUAuto:AlarmReceiverWakeLock")
-        wakeLock?.acquire(60000L)
+        wakeLock?.acquire(90000L)
 
         try {
-            AutoConnectService.connectNow(context)
+            AutoConnectService.startAuto(context)
         } finally {
             scheduleNextAlarm(context)
             wakeLock?.let { if (it.isHeld) it.release() }
@@ -46,12 +50,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
             val pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, flags)
 
-            // Compute next 10-minute slot (e.g. :00, :10, :20, :30, :40, :50)
             val now = System.currentTimeMillis()
             val tenMinutesMs = 10 * 60 * 1000L
             val remainder = now % tenMinutesMs
             var nextTrigger = now + (tenMinutesMs - remainder)
-            if (nextTrigger - now < 30000L) { // ensure at least 30s gap
+            if (nextTrigger - now < 30000L) {
                 nextTrigger += tenMinutesMs
             }
 
@@ -62,7 +65,6 @@ class AlarmReceiver : BroadcastReceiver() {
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, nextTrigger, pendingIntent)
                 }
             } catch (_: SecurityException) {
-                // Fallback for Android 12+ if exact alarms not permitted
                 alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, nextTrigger, pendingIntent)
             } catch (_: Throwable) {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, nextTrigger, pendingIntent)

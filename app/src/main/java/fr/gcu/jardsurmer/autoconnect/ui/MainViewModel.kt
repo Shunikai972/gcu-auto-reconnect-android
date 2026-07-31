@@ -73,8 +73,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun connectNow(user: String, pass: String) {
         if (saveCredentials(user, pass, showToast = false)) {
-            AppState.setStatus(context, "Connexion manuelle demandée…", isConnected = false)
-            AutoConnectService.connectNow(context)
+            AppState.setEnabled(context, true)
+            AppState.setStatus(context, "Connexion et auto-reconnexion activées…", isConnected = false)
+            AutoConnectService.startAuto(context)
         }
     }
 

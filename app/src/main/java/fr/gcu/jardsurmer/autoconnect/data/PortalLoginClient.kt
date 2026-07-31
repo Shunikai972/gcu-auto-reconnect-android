@@ -1,12 +1,13 @@
 package fr.gcu.jardsurmer.autoconnect.data
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.net.Network
+import android.os.Build
 import fr.gcu.jardsurmer.autoconnect.model.Credentials
 import fr.gcu.jardsurmer.autoconnect.model.DiagnosticInfo
 import fr.gcu.jardsurmer.autoconnect.model.LogEntry
 import fr.gcu.jardsurmer.autoconnect.model.LoginResult
-import okhttp3.FormBody
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -39,6 +40,16 @@ object PortalLoginClient {
             LogRepository.addLog(context, LogEntry(timestamp = now, message = result.message, isSuccess = false))
             return result
         }
+
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                cm?.bindProcessToNetwork(network)
+            } else {
+                @Suppress("DEPRECATION")
+                ConnectivityManager.setProcessDefaultNetwork(network)
+            }
+        } catch (_: Throwable) {}
 
         var preloginOk = false
         var formOk = false
@@ -217,6 +228,15 @@ object PortalLoginClient {
                 )
             )
             return failure
+        } finally {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    cm?.bindProcessToNetwork(null)
+                } else {
+                    @Suppress("DEPRECATION")
+                    ConnectivityManager.setProcessDefaultNetwork(null)
+                }
+            } catch (_: Throwable) {}
         }
     }
 
