@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Affiche Installation GCU Auto Connexion</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #1A252C;
+    background-color: #FFFFFF;
+    line-height: 1.35;
+    padding: 10px;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #0B6B57 0%, #064E3B 100%);
+    color: #FFFFFF;
+    padding: 16px 20px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+  .header-title h1 {
+    font-size: 26pt;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+  .header-title p {
+    font-size: 14pt;
+    opacity: 0.95;
+    font-weight: 500;
+  }
+  .qr-box {
+    background: #FFFFFF;
+    padding: 8px;
+    border-radius: 10px;
+    text-align: center;
+    color: #1A252C;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .qr-box img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 0 auto;
+  }
+  .qr-box span {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #0B6B57;
+    display: block;
+    margin-top: 4px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .card {
+    background: #F8FAFC;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .step-num {
+    background: #0B6B57;
+    color: #FFFFFF;
+    font-size: 16pt;
+    font-weight: 800;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+  .step-title {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #0F172A;
+  }
+  .step-text {
+    font-size: 11pt;
+    color: #334155;
+    margin-bottom: 8px;
+  }
+  .step-img-box {
+    text-align: center;
+    margin-top: auto;
+  }
+  .step-img-box img {
+    max-width: 100%;
+    max-height: 175px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .alert-box {
+    background: #FFFBEB;
+    border: 2px solid #F59E0B;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-top: 6px;
+  }
+  .alert-title {
+    font-size: 13pt;
+    font-weight: 800;
+    color: #B45309;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+  }
+  .alert-text {
+    font-size: 11pt;
+    color: #78350F;
+  }
+  .footer-banner {
+    background: #E0F2FE;
+    border: 2px solid #0284C7;
+    border-radius: 12px;
+    padding: 10px 16px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .footer-banner p {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #0369A1;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">
+    <h1>GCU AUTO CONNEXION</h1>
+    <p>Guide d'installation facile sur votre téléphone Android</p>
+  </div>
+  <div class="qr-box">
+    <img src="qr_code.png" alt="QR Code Bitly">
+    <span>bit.ly/4bJxFZJ</span>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- Step 1 -->
+  <div class="card">
+    <div>
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">Scannez le QR Code</div>
+      </div>
+      <div class="step-text">
+        Ouvrez l'appareil photo de votre téléphone et pointez-le sur le QR code en haut à droite (ou visitez <strong>https://bit.ly/4bJxFZJ</strong> dans le navigateur).
+      </div>
+    </div>
+    <div class="step-img-box">
+      <img src="img_step1.png" alt="Étape 1">
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card">
+    <div>
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">Téléchargez l'application</div>
+      </div>
+      <div class="step-text">
+        Appuyez sur le bouton vert <strong>Télécharger</strong> pour enregistrer le fichier d'installation (<strong>GCU-Auto-Connexion-4.0.0.apk</strong>).
+      </div>
+    </div>
+    <div class="step-img-box" style="padding: 10px;">
+      <div style="background: #E2E8F0; padding: 15px; border-radius: 10px; font-weight: bold; color: #0F172A; font-size: 13pt;">
+        📥 Télécharger l'application APK<br>
+        <span style="font-weight: normal; font-size: 10pt; color: #475569;">Fichier sécurisé vérifié</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card">
+    <div>
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-title">Autorisez l'installation</div>
+      </div>
+      <div class="step-text">
+        Si Android affiche un avertissement "Sources inconnues" ou "Fichier bloqué" :
+        <ul style="margin-left: 18px; margin-top: 4px;">
+          <li>Appuyez sur <strong>Plus de détails</strong></li>
+          <li>Sélectionnez <strong>Installer quand même</strong> (ou <em>Ne pas analyser</em>)</li>
+          <li>Saisissez le code PIN / mot de passe de votre téléphone si demandé</li>
+        </ul>
+      </div>
+    </div>
+    <div class="step-img-box">
+      <img src="img_step2.png" alt="Étape 3">
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="card">
+    <div>
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div class="step-title">Identifiants & Connexion</div>
+      </div>
+      <div class="step-text">
+        Ouvrez l'application, saisissez votre identifiant et mot de passe GCU, laissez <strong>Auto reconnexion</strong> activé et appuyez sur <strong>SE CONNECTER</strong>.
+      </div>
+    </div>
+    <div class="step-img-box">
+      <img src="img_step3.png" alt="Étape 4">
+    </div>
+  </div>
+
+</div>
+
+<div class="alert-box">
+  <div class="alert-title">🛡️ Pourquoi ce message "Source inconnue" ?</div>
+  <div class="alert-text">
+    C'est une protection normale d'Android car l'application provient directement de notre serveur GCU et non du Play Store. Elle est 100% sécurisée et sans aucun risque pour votre téléphone.
+  </div>
+</div>
+
+<div class="footer-banner">
+  <p>✨ Terminé ! L'application maintient votre connexion au Wi-Fi GCU automatiquement 24h/24 sans aucune intervention !</p>
+</div>
+
+</body>
+</html>

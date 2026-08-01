@@ -20,6 +20,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val liveStatus: LiveData<String> = AppState.getLiveStatus()
     val liveLastReconnect: LiveData<String> = AppState.getLiveLastReconnect()
     val liveIsConnected: LiveData<Boolean> = AppState.getLiveIsConnected()
+    val liveProbeInterval: LiveData<Int> = AppState.getLiveProbeInterval()
     val liveLogs: LiveData<List<LogEntry>> = LogRepository.getLiveLogs()
 
     private val _credentials = MutableLiveData<Credentials?>()
@@ -62,7 +63,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 return
             }
             AppState.setEnabled(context, true)
-            AppState.setStatus(context, "Auto-reconnexion activée. Recherche du Wi-Fi GCU…", isConnected = false)
+            AppState.setStatus(context, "Auto-reconnexion activée. Connexion immédiate en cours…", isConnected = false)
             AutoConnectService.startAuto(context)
         } else {
             AppState.setEnabled(context, false)
@@ -75,6 +76,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (saveCredentials(user, pass, showToast = false)) {
             AppState.setEnabled(context, true)
             AppState.setStatus(context, "Connexion et auto-reconnexion activées…", isConnected = false)
+            AutoConnectService.startAuto(context)
+        }
+    }
+
+    fun setProbeInterval(seconds: Int) {
+        AppState.setProbeIntervalSeconds(context, seconds)
+        if (AppState.isEnabled(context)) {
             AutoConnectService.startAuto(context)
         }
     }

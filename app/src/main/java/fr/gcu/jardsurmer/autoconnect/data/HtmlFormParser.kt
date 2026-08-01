@@ -11,6 +11,7 @@ object HtmlFormParser {
     private val INPUT_PATTERN = Pattern.compile("(?is)<input\\b([^>]*)>")
     private val BUTTON_PATTERN = Pattern.compile("(?is)<button\\b([^>]*)>(.*?)</button\\s*>")
     private val ATTR_PATTERN = Pattern.compile("(?is)([a-zA-Z_:][-a-zA-Z0-9_:.]*)(?:\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)'|([^\\s>]+)))?")
+    private val CHALLENGE_PATTERN = Pattern.compile("(?i)challenge\\s*=\\s*[\"']?([a-f0-9]{32})[\"']?")
 
     data class Field(
         var type: String = "text",
@@ -24,7 +25,7 @@ object HtmlFormParser {
     class Form(
         var pageUrl: String = "",
         var action: String = "",
-        var method: String = "GET",
+        var method: String = "POST",
         val fields: MutableList<Field> = mutableListOf(),
         var usernameField: String? = null,
         var passwordField: String? = null,
@@ -121,7 +122,7 @@ object HtmlFormParser {
             val inner = matcher.group(2) ?: ""
             val form = Form(
                 pageUrl = pageUrl,
-                method = value(attrs, "method", "GET").uppercase(Locale.US),
+                method = value(attrs, "method", "POST").uppercase(Locale.US),
                 action = try {
                     URI(pageUrl).resolve(htmlDecode(value(attrs, "action", pageUrl))).toString()
                 } catch (_: Throwable) { pageUrl }
@@ -161,7 +162,28 @@ object HtmlFormParser {
                 best = form
             }
         }
-        return best ?: throw IllegalArgumentException("Formulaire de connexion introuvable dans la page")
+
+        if (best != null) return best
+
+        // Fallback: Create synthetic ALCASAR form if <form> tag is missing or non-standard
+        val challengeMatch = CHALLENGE_PATTERN.matcher(pageUrl + html)
+        val extractedChallenge = if (challengeMatch.find()) challengeMatch.group(1) else null
+
+        val fallbackForm = Form(
+            pageUrl = pageUrl,
+            action = if (pageUrl.contains("intercept.php")) pageUrl else "https://jard-sur-mer.gcuf.fr/intercept.php",
+            method = "POST",
+            usernameField = "username",
+            passwordField = "password",
+            challengeValue = extractedChallenge
+        )
+        fallbackForm.fields.add(Field(type = "text", name = "username"))
+        fallbackForm.fields.add(Field(type = "password", name = "password"))
+        if (extractedChallenge != null) {
+            fallbackForm.fields.add(Field(type = "hidden", name = "challenge", value = extractedChallenge))
+        }
+        fallbackForm.fields.add(Field(type = "submit", name = "button", value = "Authentification"))
+        return fallbackForm
     }
 
     private fun attributes(raw: String?): Map<String, String> {

@@ -148,7 +148,7 @@
                 android:paddingBottom="6dp" />
         </LinearLayout>
 
-        <!-- Auto Reconnect Switch Card -->
+        <!-- Auto Reconnect Switch & Settings Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -171,10 +171,27 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reconnexion automatique toutes les 10 minutes (00, 10, 20, 30, 40, 50 min), même écran éteint."
+                android:text="Reconnexion immédiate à la saisie + contrôle permanent même écran éteint."
                 android:textSize="15sp"
                 android:textColor="#556677"
                 android:paddingTop="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fréquence de vérification du Wi-Fi GCU"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="#1E282D"
+                android:paddingTop="12dp"
+                android:paddingBottom="4dp" />
+
+            <Spinner
+                android:id="@+id/spinnerInterval"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:padding="8dp" />
         </LinearLayout>
 
         <!-- Big Action Buttons -->

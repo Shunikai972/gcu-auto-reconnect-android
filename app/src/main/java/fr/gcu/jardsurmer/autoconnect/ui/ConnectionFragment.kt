@@ -5,9 +5,12 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
@@ -26,10 +29,12 @@ class ConnectionFragment : Fragment() {
     private lateinit var cbShowPassword: CheckBox
     private lateinit var cbSaveCredentials: CheckBox
     private lateinit var switchAutoReconnect: SwitchCompat
+    private lateinit var spinnerInterval: Spinner
     private lateinit var btnConnectNow: Button
     private lateinit var btnClearCredentials: Button
 
     private var isUpdatingFromModel = false
+    private val intervalOptions = listOf(5, 10, 15, 30)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,13 +51,27 @@ class ConnectionFragment : Fragment() {
         cbShowPassword = root.findViewById(R.id.cbShowPassword)
         cbSaveCredentials = root.findViewById(R.id.cbSaveCredentials)
         switchAutoReconnect = root.findViewById(R.id.switchAutoReconnect)
+        spinnerInterval = root.findViewById(R.id.spinnerInterval)
         btnConnectNow = root.findViewById(R.id.btnConnectNow)
         btnClearCredentials = root.findViewById(R.id.btnClearCredentials)
 
+        setupSpinner()
         setupListeners()
         observeViewModel()
 
         return root
+    }
+
+    private fun setupSpinner() {
+        val displayNames = listOf(
+            "5 secondes (Recommandé - Ultra rapide)",
+            "10 secondes",
+            "15 secondes",
+            "30 secondes"
+        )
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, displayNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerInterval.adapter = adapter
     }
 
     private fun setupListeners() {
@@ -73,6 +92,16 @@ class ConnectionFragment : Fragment() {
                 etUsername.text.toString(),
                 etPassword.text.toString()
             )
+        }
+
+        spinnerInterval.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isUpdatingFromModel) return
+                val secs = intervalOptions.getOrElse(position) { 5 }
+                viewModel.setProbeInterval(secs)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         btnConnectNow.setOnClickListener {
@@ -110,6 +139,13 @@ class ConnectionFragment : Fragment() {
             isUpdatingFromModel = false
         }
 
+        viewModel.liveProbeInterval.observe(viewLifecycleOwner) { secs ->
+            isUpdatingFromModel = true
+            val pos = intervalOptions.indexOf(secs).coerceAtLeast(0)
+            spinnerInterval.setSelection(pos)
+            isUpdatingFromModel = false
+        }
+
         viewModel.liveStatus.observe(viewLifecycleOwner) { status ->
             tvStatusText.text = status ?: ""
         }
@@ -119,7 +155,7 @@ class ConnectionFragment : Fragment() {
                 tvStatusBadge.text = "🟢"
             } else {
                 val statusMsg = viewModel.liveStatus.value ?: ""
-                if (statusMsg.contains("attente", ignoreCase = true) || statusMsg.contains("Recherche", ignoreCase = true)) {
+                if (statusMsg.contains("attente", ignoreCase = true) || statusMsg.contains("Recherche", ignoreCase = true) || statusMsg.contains("immédiate", ignoreCase = true)) {
                     tvStatusBadge.text = "🟡"
                 } else {
                     tvStatusBadge.text = "🔴"

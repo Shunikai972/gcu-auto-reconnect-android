@@ -13,7 +13,20 @@ object NetworkInspector {
     fun findWifiNetwork(context: Context): Network? {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager ?: return null
 
-        // 1. Check bound process network first
+        @Suppress("DEPRECATION")
+        val networks = cm.allNetworks
+
+        // 1. Search all networks for a verified GCU candidate Wi-Fi network
+        for (network in networks) {
+            val caps = cm.getNetworkCapabilities(network) ?: continue
+            if (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                if (isGcuCandidate(context, network)) {
+                    return network
+                }
+            }
+        }
+
+        // 2. Check bound process network
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val bound = cm.boundNetworkForProcess
             if (bound != null) {
@@ -24,7 +37,7 @@ object NetworkInspector {
             }
         }
 
-        // 2. Check active network
+        // 3. Check active network
         val active = cm.activeNetwork
         if (active != null) {
             val caps = cm.getNetworkCapabilities(active)
@@ -33,12 +46,10 @@ object NetworkInspector {
             }
         }
 
-        // 3. Search all networks for Wi-Fi transport
-        @Suppress("DEPRECATION")
-        val networks = cm.allNetworks
+        // 4. Fallback: return any Wi-Fi network found
         for (network in networks) {
-            val capabilities = cm.getNetworkCapabilities(network) ?: continue
-            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+            val caps = cm.getNetworkCapabilities(network) ?: continue
+            if (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
                 return network
             }
         }

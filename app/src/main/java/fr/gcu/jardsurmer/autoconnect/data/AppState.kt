@@ -13,11 +13,13 @@ object AppState {
     private const val KEY_SAVE_CREDENTIALS = "save_credentials_enabled"
     private const val KEY_LAST_STATUS = "last_status_message"
     private const val KEY_LAST_RECONNECT_TIME = "last_reconnect_timestamp"
+    private const val KEY_PROBE_INTERVAL = "probe_interval_seconds"
 
     private val liveEnabled = MutableLiveData<Boolean>()
     private val liveStatus = MutableLiveData<String>()
     private val liveLastReconnect = MutableLiveData<String>()
     private val liveIsConnected = MutableLiveData<Boolean>()
+    private val liveProbeInterval = MutableLiveData<Int>()
 
     fun init(context: Context) {
         val enabled = isEnabled(context)
@@ -28,6 +30,7 @@ object AppState {
         val lastTime = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .getString(KEY_LAST_RECONNECT_TIME, "--:--") ?: "--:--"
         liveLastReconnect.postValue(lastTime)
+        liveProbeInterval.postValue(getProbeIntervalSeconds(context))
     }
 
     fun isEnabled(context: Context): Boolean {
@@ -49,6 +52,18 @@ object AppState {
     fun setSaveCredentials(context: Context, save: Boolean) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .edit().putBoolean(KEY_SAVE_CREDENTIALS, save).apply()
+    }
+
+    fun getProbeIntervalSeconds(context: Context): Int {
+        return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getInt(KEY_PROBE_INTERVAL, 5)
+    }
+
+    fun setProbeIntervalSeconds(context: Context, seconds: Int) {
+        val validSecs = if (seconds in listOf(5, 10, 15, 30)) seconds else 5
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().putInt(KEY_PROBE_INTERVAL, validSecs).apply()
+        liveProbeInterval.postValue(validSecs)
     }
 
     fun getStatus(context: Context): String {
@@ -78,4 +93,5 @@ object AppState {
     fun getLiveStatus(): LiveData<String> = liveStatus
     fun getLiveLastReconnect(): LiveData<String> = liveLastReconnect
     fun getLiveIsConnected(): LiveData<Boolean> = liveIsConnected
+    fun getLiveProbeInterval(): LiveData<Int> = liveProbeInterval
 }

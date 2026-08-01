@@ -57,15 +57,15 @@ class AutoConnectService : Service() {
         when (action) {
             ACTION_START_AUTO -> {
                 AppState.setEnabled(this, true)
-                setStatus("Auto-reconnexion active. Surveillance du Wi-Fi GCU…", isConnected = false)
+                setStatus("Auto-reconnexion active. Connexion immédiate en cours…", isConnected = false)
                 AlarmReceiver.scheduleNextAlarm(this)
                 AutoConnectWorker.schedulePeriodicWork(this)
-                triggerAttempt(oneShot = false, forceRelogin = false, reason = "activation")
+                triggerAttempt(oneShot = false, forceRelogin = true, reason = "activation immédiate")
                 return START_STICKY
             }
             ACTION_CONNECT_NOW -> {
                 AppState.setEnabled(this, true)
-                setStatus("Connexion et auto-reconnexion en cours…", isConnected = false)
+                setStatus("Connexion immédiate en cours…", isConnected = false)
                 AlarmReceiver.scheduleNextAlarm(this)
                 AutoConnectWorker.schedulePeriodicWork(this)
                 triggerAttempt(oneShot = false, forceRelogin = true, reason = "demande manuelle")
@@ -89,7 +89,9 @@ class AutoConnectService : Service() {
         periodicTickerJob = serviceScope.launch {
             var lastBoundaryMinute = -1
             while (isActive) {
-                delay(20000L) // Active 20-second probe loop
+                val intervalSecs = AppState.getProbeIntervalSeconds(this@AutoConnectService).coerceIn(3, 60)
+                delay(intervalSecs * 1000L)
+
                 if (!AppState.isEnabled(this@AutoConnectService)) continue
 
                 val now = System.currentTimeMillis()
@@ -105,13 +107,12 @@ class AutoConnectService : Service() {
                     lastBoundaryMinute = currentMinute
                 }
 
-                // 2. Active Probe: test if Internet is working on the Wi-Fi
+                // 2. Active Probe & Wi-Fi Range check
                 val wifi = NetworkInspector.findWifiNetwork(this@AutoConnectService)
                 if (wifi != null && NetworkInspector.isGcuCandidate(this@AutoConnectService, wifi)) {
                     val online = isWifiOnline(wifi)
                     if (!online) {
-                        // Internet dropped or portal session expired! Reconnect immediately!
-                        triggerAttempt(oneShot = false, forceRelogin = true, reason = "déconnexion détectée")
+                        triggerAttempt(oneShot = false, forceRelogin = true, reason = "Wi-Fi GCU à portée / déconnexion")
                     }
                 }
             }
@@ -122,8 +123,8 @@ class AutoConnectService : Service() {
         return try {
             val dnsResolver = DnsResolver(this, wifi)
             val client = OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(4, TimeUnit.SECONDS)
+                .readTimeout(4, TimeUnit.SECONDS)
                 .dns(dnsResolver)
                 .socketFactory(wifi.socketFactory)
                 .followRedirects(false)
@@ -144,19 +145,19 @@ class AutoConnectService : Service() {
             networkCallback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     if (AppState.isEnabled(this@AutoConnectService)) {
-                        triggerAttempt(oneShot = false, forceRelogin = false, reason = "Wi-Fi détecté")
+                        triggerAttempt(oneShot = false, forceRelogin = true, reason = "Wi-Fi GCU connecté")
                     }
                 }
 
                 override fun onLost(network: Network) {
                     if (NetworkInspector.findWifiNetwork(this@AutoConnectService) == null) {
-                        setStatus("Wi-Fi absent. L'auto-reconnexion reste active.", isConnected = false)
+                        setStatus("Wi-Fi absent. Recherche du Wi-Fi GCU à portée…", isConnected = false)
                     }
                 }
             }
             cm.registerNetworkCallback(request, networkCallback!!)
         } catch (_: Throwable) {
-            setStatus("Surveillance Wi-Fi active (contrôle toutes les 20 secondes).", isConnected = false)
+            setStatus("Surveillance Wi-Fi active (contrôle régulier).", isConnected = false)
         }
     }
 
