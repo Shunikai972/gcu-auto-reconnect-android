@@ -97,6 +97,8 @@
                 android:layout_height="58dp"
                 android:hint="Saisissez votre identifiant"
                 android:textSize="19sp"
+                android:textColor="#000000"
+                android:textColorHint="#757575"
                 android:singleLine="true"
                 android:padding="12dp"
                 android:background="@android:drawable/editbox_background"
@@ -118,6 +120,8 @@
                 android:layout_height="58dp"
                 android:hint="Saisissez votre mot de passe"
                 android:textSize="19sp"
+                android:textColor="#000000"
+                android:textColorHint="#757575"
                 android:singleLine="true"
                 android:padding="12dp"
                 android:background="@android:drawable/editbox_background"
@@ -129,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:text="Afficher le mot de passe"
                 android:textSize="17sp"
+                android:textColor="#222222"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp" />
 
@@ -138,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:text="Sauvegarder dans Android Keystore"
                 android:textSize="17sp"
+                android:textColor="#222222"
                 android:checked="true"
                 android:paddingBottom="6dp" />
         </LinearLayout>
