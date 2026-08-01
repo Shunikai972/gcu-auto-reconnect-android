@@ -1,0 +1,5 @@
+=== INFOS DNS ===
+Portail attendu: jard-sur-mer.gcuf.fr
+IP Passerelle: 192.168.182.1
+Port CoovaChilli: 3990
+Port Logon HTTPS: 3991

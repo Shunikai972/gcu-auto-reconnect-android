@@ -18,6 +18,7 @@ import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import fr.gcu.jardsurmer.autoconnect.data.AppState
 import fr.gcu.jardsurmer.autoconnect.data.CredentialStore
+import fr.gcu.jardsurmer.autoconnect.data.DnsResolver
 import fr.gcu.jardsurmer.autoconnect.data.NetworkInspector
 import fr.gcu.jardsurmer.autoconnect.data.PortalLoginClient
 import fr.gcu.jardsurmer.autoconnect.model.LoginResult
@@ -28,6 +29,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 class AutoConnectService : Service() {
@@ -54,10 +57,10 @@ class AutoConnectService : Service() {
         when (action) {
             ACTION_START_AUTO -> {
                 AppState.setEnabled(this, true)
-                setStatus("Auto-reconnexion active. Recherche du Wi-Fi GCU…", isConnected = false)
+                setStatus("Auto-reconnexion active. Surveillance du Wi-Fi GCU…", isConnected = false)
                 AlarmReceiver.scheduleNextAlarm(this)
                 AutoConnectWorker.schedulePeriodicWork(this)
-                triggerAttempt(oneShot = false, reason = "activation")
+                triggerAttempt(oneShot = false, forceRelogin = false, reason = "activation")
                 return START_STICKY
             }
             ACTION_CONNECT_NOW -> {
@@ -65,14 +68,14 @@ class AutoConnectService : Service() {
                 setStatus("Connexion et auto-reconnexion en cours…", isConnected = false)
                 AlarmReceiver.scheduleNextAlarm(this)
                 AutoConnectWorker.schedulePeriodicWork(this)
-                triggerAttempt(oneShot = false, reason = "demande manuelle")
+                triggerAttempt(oneShot = false, forceRelogin = true, reason = "demande manuelle")
                 return START_STICKY
             }
             else -> {
                 if (AppState.isEnabled(this)) {
                     AlarmReceiver.scheduleNextAlarm(this)
                     AutoConnectWorker.schedulePeriodicWork(this)
-                    triggerAttempt(oneShot = false, reason = "redémarrage du service")
+                    triggerAttempt(oneShot = false, forceRelogin = true, reason = "redémarrage du service")
                     return START_STICKY
                 }
                 stopSelf()
@@ -84,13 +87,50 @@ class AutoConnectService : Service() {
     private fun startPeriodicTicker() {
         periodicTickerJob?.cancel()
         periodicTickerJob = serviceScope.launch {
+            var lastBoundaryMinute = -1
             while (isActive) {
-                delay(10 * 60 * 1000L) // 10 minutes
-                if (AppState.isEnabled(this@AutoConnectService)) {
+                delay(20000L) // Active 20-second probe loop
+                if (!AppState.isEnabled(this@AutoConnectService)) continue
+
+                val now = System.currentTimeMillis()
+                val currentMinute = ((now / 60000L) % 10).toInt()
+
+                // 1. Check if we are at a 10-minute clock boundary (e.g. :00, :10, :20, :30, :40, :50)
+                if (currentMinute == 0 && lastBoundaryMinute != 0) {
+                    lastBoundaryMinute = 0
                     AlarmReceiver.scheduleNextAlarm(this@AutoConnectService)
-                    triggerAttempt(oneShot = false, reason = "ticker 10 minutes")
+                    triggerAttempt(oneShot = false, forceRelogin = true, reason = "tranche 10 min")
+                    continue
+                } else if (currentMinute != 0) {
+                    lastBoundaryMinute = currentMinute
+                }
+
+                // 2. Active Probe: test if Internet is working on the Wi-Fi
+                val wifi = NetworkInspector.findWifiNetwork(this@AutoConnectService)
+                if (wifi != null && NetworkInspector.isGcuCandidate(this@AutoConnectService, wifi)) {
+                    val online = isWifiOnline(wifi)
+                    if (!online) {
+                        // Internet dropped or portal session expired! Reconnect immediately!
+                        triggerAttempt(oneShot = false, forceRelogin = true, reason = "déconnexion détectée")
+                    }
                 }
             }
+        }
+    }
+
+    private fun isWifiOnline(wifi: Network): Boolean {
+        return try {
+            val dnsResolver = DnsResolver(this, wifi)
+            val client = OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .dns(dnsResolver)
+                .socketFactory(wifi.socketFactory)
+                .followRedirects(false)
+                .build()
+            PortalLoginClient.isOnline(client)
+        } catch (_: Throwable) {
+            false
         }
     }
 
@@ -104,7 +144,7 @@ class AutoConnectService : Service() {
             networkCallback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     if (AppState.isEnabled(this@AutoConnectService)) {
-                        triggerAttempt(oneShot = false, reason = "Wi-Fi détecté")
+                        triggerAttempt(oneShot = false, forceRelogin = false, reason = "Wi-Fi détecté")
                     }
                 }
 
@@ -116,11 +156,11 @@ class AutoConnectService : Service() {
             }
             cm.registerNetworkCallback(request, networkCallback!!)
         } catch (_: Throwable) {
-            setStatus("Surveillance Wi-Fi active (contrôle périodique toutes les 10 minutes).", isConnected = false)
+            setStatus("Surveillance Wi-Fi active (contrôle toutes les 20 secondes).", isConnected = false)
         }
     }
 
-    private fun triggerAttempt(oneShot: Boolean, reason: String) {
+    private fun triggerAttempt(oneShot: Boolean, forceRelogin: Boolean, reason: String) {
         if (!attemptRunning.compareAndSet(false, true)) return
 
         serviceScope.launch {
@@ -138,16 +178,20 @@ class AutoConnectService : Service() {
                 }
 
                 val wifi = NetworkInspector.findWifiNetwork(this@AutoConnectService)
-                val result = PortalLoginClient.login(this@AutoConnectService, wifi, credentials)
+                val result = PortalLoginClient.login(this@AutoConnectService, wifi, credentials, forceRelogin = forceRelogin)
+
+                val statusMessage = if (reason.isNotEmpty() && reason != "activation") {
+                    "${result.message} ($reason)"
+                } else {
+                    result.message
+                }
 
                 when (result) {
                     is LoginResult.Success -> {
-                        val msg = if (reason.isNotEmpty() && reason != "activation") "${result.message} ($reason)" else result.message
-                        setStatus(msg, isConnected = true)
+                        setStatus(statusMessage, isConnected = true)
                     }
                     is LoginResult.Failure -> {
-                        val msg = if (reason.isNotEmpty() && reason != "activation") "${result.message} ($reason)" else result.message
-                        setStatus(msg, isConnected = false)
+                        setStatus(statusMessage, isConnected = false)
                     }
                 }
             } finally {

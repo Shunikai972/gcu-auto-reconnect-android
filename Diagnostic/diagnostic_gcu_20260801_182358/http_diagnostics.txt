@@ -1,0 +1,829 @@
+=== REQUÊTES ET RÉPONSES HTTP (IDENTIFIANTS ET MOTS DE PASSE CAVIARDÉS) ===
+
+=== REQUÊTE HTTP ===
+POST https://jard-sur-mer.gcuf.fr/intercept.php
+Headers requêtes:
+  Content-Type: application/x-www-form-urlencoded
+  Referer: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=f94d2ec4be2ac1792aee419803c8aa33&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178560120600000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=A92755554A5FF915CE1BB43D1A0F65AF
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  location: https://jard-sur-mer.gcuf.fr:3991/logon?username=350947A1&password=1ef97e973fd6db7c74b4&userurl=http://connectivitycheck.gstatic.com/generate_204
+  content-type: text/html; charset=UTF-8
+  content-length: 0
+  date: Sat, 01 Aug 2026 16:21:37 GMT
+Corps réponse (extrait):
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=f94d2ec4be2ac1792aee419803c8aa33&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178560120600000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=A92755554A5FF915CE1BB43D1A0F65AF
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 16:21:37 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-type: text/html; charset=UTF-8
+  content-length: 5512
+  date: Sat, 01 Aug 2026 16:21:37 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET http://192.168.182.1:3990/prelogin
+Headers requêtes:
+DNS Résolu: 192.168.182.1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  Connection: close
+  Pragma: no-cache
+  Expires: Fri, 01 Jan 1971 00:00:00 GMT
+  Cache-Control: no-cache, must-revalidate
+  P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+  Location: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=f94d2ec4be2ac1792aee419803c8aa33&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178560120600000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=A92755554A5FF915CE1BB43D1A0F65AF
+  Content-Type: text/html; charset=UTF-8
+  Content-Length: 771
+Corps réponse (extrait):
+<HTML><BODY><H2>Browser error!</H2>Browser does not support redirects!</BODY>
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<WISPAccessGatewayParam
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.wballiance.net/wispr_2_0.xsd">
+<Redirect>
+<MessageType>100</MessageType>
+<ResponseCode>0</ResponseCode>
+<VersionHigh>2.0</VersionHigh>
+<VersionLow>1.0</VersionLow>
+<AccessProcedure>1.0</AccessProcedure>
+<LoginURL>https://jard-sur-mer.gcuf.fr/intercept.php?res=wispr&amp;uamip=192.168.182.1&amp;uamport=3990&amp;challenge=f94d2ec4be2ac1792aee419803c8aa33</LoginURL>
+<AbortLoginURL>http://192.168.182.1:3990/abort</AbortLoginURL>
+<EAPMsg>AQEABQE=</EAPMsg>
+</Redirect>
+</WISPAccessGatewayParam>
+-->
+
+</HTML>
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr:3991/logon?username=350947A1&password=***REDACTED***&userurl=http://connectivitycheck.gstatic.com/generate_204
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  content-type: text/html; charset=utf-8;
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 16:13:40 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-length: 1646
+  date: Sat, 01 Aug 2026 16:13:40 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+POST https://jard-sur-mer.gcuf.fr/intercept.php
+Headers requêtes:
+  Content-Type: application/x-www-form-urlencoded
+  Referer: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=164f2d8dded6aeaa61752f65e3af30c1&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178560060300000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=678E4621114349BBEF9803747DE067E2
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  location: https://jard-sur-mer.gcuf.fr:3991/logon?username=350947A1&password=4a18b447ac8ae31e390c&userurl=http://connectivitycheck.gstatic.com/generate_204
+  content-type: text/html; charset=UTF-8
+  content-length: 0
+  date: Sat, 01 Aug 2026 16:13:05 GMT
+Corps réponse (extrait):
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=164f2d8dded6aeaa61752f65e3af30c1&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178560060300000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=678E4621114349BBEF9803747DE067E2
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 16:13:05 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-type: text/html; charset=UTF-8
+  content-length: 5512
+  date: Sat, 01 Aug 2026 16:13:05 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET http://192.168.182.1:3990/prelogin
+Headers requêtes:
+DNS Résolu: 192.168.182.1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  Connection: close
+  Pragma: no-cache
+  Expires: Fri, 01 Jan 1971 00:00:00 GMT
+  Cache-Control: no-cache, must-revalidate
+  P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+  Location: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=164f2d8dded6aeaa61752f65e3af30c1&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178560060300000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=678E4621114349BBEF9803747DE067E2
+  Content-Type: text/html; charset=UTF-8
+  Content-Length: 771
+Corps réponse (extrait):
+<HTML><BODY><H2>Browser error!</H2>Browser does not support redirects!</BODY>
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<WISPAccessGatewayParam
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.wballiance.net/wispr_2_0.xsd">
+<Redirect>
+<MessageType>100</MessageType>
+<ResponseCode>0</ResponseCode>
+<VersionHigh>2.0</VersionHigh>
+<VersionLow>1.0</VersionLow>
+<AccessProcedure>1.0</AccessProcedure>
+<LoginURL>https://jard-sur-mer.gcuf.fr/intercept.php?res=wispr&amp;uamip=192.168.182.1&amp;uamport=3990&amp;challenge=164f2d8dded6aeaa61752f65e3af30c1</LoginURL>
+<AbortLoginURL>http://192.168.182.1:3990/abort</AbortLoginURL>
+<EAPMsg>AQEABQE=</EAPMsg>
+</Redirect>
+</WISPAccessGatewayParam>
+-->
+
+</HTML>
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr:3991/logon?username=350947A1&password=***REDACTED***&userurl=http://connectivitycheck.gstatic.com/generate_204
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  content-type: text/html; charset=utf-8;
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 16:08:43 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-length: 1646
+  date: Sat, 01 Aug 2026 16:08:43 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+POST https://jard-sur-mer.gcuf.fr/intercept.php
+Headers requêtes:
+  Content-Type: application/x-www-form-urlencoded
+  Referer: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=164f2d8dded6aeaa61752f65e3af30c1&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559640400000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=C404C928784043A35D3B2FA72C84A5B8
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  location: https://jard-sur-mer.gcuf.fr:3991/logon?username=350947A1&password=4a18b447ac8ae31e390c&userurl=http://connectivitycheck.gstatic.com/generate_204
+  content-type: text/html; charset=UTF-8
+  content-length: 0
+  date: Sat, 01 Aug 2026 16:08:09 GMT
+Corps réponse (extrait):
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=164f2d8dded6aeaa61752f65e3af30c1&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559640400000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=C404C928784043A35D3B2FA72C84A5B8
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 16:08:09 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-type: text/html; charset=UTF-8
+  content-length: 5512
+  date: Sat, 01 Aug 2026 16:08:09 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET http://192.168.182.1:3990/prelogin
+Headers requêtes:
+DNS Résolu: 192.168.182.1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  Connection: close
+  Pragma: no-cache
+  Expires: Fri, 01 Jan 1971 00:00:00 GMT
+  Cache-Control: no-cache, must-revalidate
+  P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+  Location: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=164f2d8dded6aeaa61752f65e3af30c1&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559640400000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=C404C928784043A35D3B2FA72C84A5B8
+  Content-Type: text/html; charset=UTF-8
+  Content-Length: 771
+Corps réponse (extrait):
+<HTML><BODY><H2>Browser error!</H2>Browser does not support redirects!</BODY>
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<WISPAccessGatewayParam
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.wballiance.net/wispr_2_0.xsd">
+<Redirect>
+<MessageType>100</MessageType>
+<ResponseCode>0</ResponseCode>
+<VersionHigh>2.0</VersionHigh>
+<VersionLow>1.0</VersionLow>
+<AccessProcedure>1.0</AccessProcedure>
+<LoginURL>https://jard-sur-mer.gcuf.fr/intercept.php?res=wispr&amp;uamip=192.168.182.1&amp;uamport=3990&amp;challenge=164f2d8dded6aeaa61752f65e3af30c1</LoginURL>
+<AbortLoginURL>http://192.168.182.1:3990/abort</AbortLoginURL>
+<EAPMsg>AQEABQE=</EAPMsg>
+</Redirect>
+</WISPAccessGatewayParam>
+-->
+
+</HTML>
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+POST https://jard-sur-mer.gcuf.fr/intercept.php
+Headers requêtes:
+  Content-Type: application/x-www-form-urlencoded
+  Referer: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1d66cead71dce2a89de46f912de2ced0&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559580300000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=1E37DBC98E8F9D94B42863483109E9FF
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  location: https://jard-sur-mer.gcuf.fr:3991/logon?username=350947A1&password=522cffb19fe343e28594&userurl=http://connectivitycheck.gstatic.com/generate_204
+  content-type: text/html; charset=UTF-8
+  content-length: 0
+  date: Sat, 01 Aug 2026 14:51:57 GMT
+Corps réponse (extrait):
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1d66cead71dce2a89de46f912de2ced0&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559580300000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=1E37DBC98E8F9D94B42863483109E9FF
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 14:51:57 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-type: text/html; charset=UTF-8
+  content-length: 5512
+  date: Sat, 01 Aug 2026 14:51:57 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET http://192.168.182.1:3990/prelogin
+Headers requêtes:
+DNS Résolu: 192.168.182.1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  Connection: close
+  Pragma: no-cache
+  Expires: Fri, 01 Jan 1971 00:00:00 GMT
+  Cache-Control: no-cache, must-revalidate
+  P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+  Location: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1d66cead71dce2a89de46f912de2ced0&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559580300000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=1E37DBC98E8F9D94B42863483109E9FF
+  Content-Type: text/html; charset=UTF-8
+  Content-Length: 771
+Corps réponse (extrait):
+<HTML><BODY><H2>Browser error!</H2>Browser does not support redirects!</BODY>
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<WISPAccessGatewayParam
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.wballiance.net/wispr_2_0.xsd">
+<Redirect>
+<MessageType>100</MessageType>
+<ResponseCode>0</ResponseCode>
+<VersionHigh>2.0</VersionHigh>
+<VersionLow>1.0</VersionLow>
+<AccessProcedure>1.0</AccessProcedure>
+<LoginURL>https://jard-sur-mer.gcuf.fr/intercept.php?res=wispr&amp;uamip=192.168.182.1&amp;uamport=3990&amp;challenge=1d66cead71dce2a89de46f912de2ced0</LoginURL>
+<AbortLoginURL>http://192.168.182.1:3990/abort</AbortLoginURL>
+<EAPMsg>AQEABQE=</EAPMsg>
+</Redirect>
+</WISPAccessGatewayParam>
+-->
+
+</HTML>
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET http://192.168.182.1:3990/prelogin
+Headers requêtes:
+DNS Résolu: 192.168.182.1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  Connection: close
+  Pragma: no-cache
+  Expires: Fri, 01 Jan 1971 00:00:00 GMT
+  Cache-Control: no-cache, must-revalidate
+  P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+  Location: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1d66cead71dce2a89de46f912de2ced0&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559520300000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=DAE4657C6BF62FE54A3E7E70EA0EE86D
+  Content-Type: text/html; charset=UTF-8
+  Content-Length: 771
+Corps réponse (extrait):
+<HTML><BODY><H2>Browser error!</H2>Browser does not support redirects!</BODY>
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<WISPAccessGatewayParam
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.wballiance.net/wispr_2_0.xsd">
+<Redirect>
+<MessageType>100</MessageType>
+<ResponseCode>0</ResponseCode>
+<VersionHigh>2.0</VersionHigh>
+<VersionLow>1.0</VersionLow>
+<AccessProcedure>1.0</AccessProcedure>
+<LoginURL>https://jard-sur-mer.gcuf.fr/intercept.php?res=wispr&amp;uamip=192.168.182.1&amp;uamport=3990&amp;challenge=1d66cead71dce2a89de46f912de2ced0</LoginURL>
+<AbortLoginURL>http://192.168.182.1:3990/abort</AbortLoginURL>
+<EAPMsg>AQEABQE=</EAPMsg>
+</Redirect>
+</WISPAccessGatewayParam>
+-->
+
+</HTML>
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET http://192.168.182.1:3990/prelogin
+Headers requêtes:
+DNS Résolu: 192.168.182.1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  Connection: close
+  Pragma: no-cache
+  Expires: Fri, 01 Jan 1971 00:00:00 GMT
+  Cache-Control: no-cache, must-revalidate
+  P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+  Location: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1fe9f72161629a44d7f2285a980a620c&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559520300000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=C5E7EE43D47CD30F42E7155A921D4C63
+  Content-Type: text/html; charset=UTF-8
+  Content-Length: 771
+Corps réponse (extrait):
+<HTML><BODY><H2>Browser error!</H2>Browser does not support redirects!</BODY>
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<WISPAccessGatewayParam
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.wballiance.net/wispr_2_0.xsd">
+<Redirect>
+<MessageType>100</MessageType>
+<ResponseCode>0</ResponseCode>
+<VersionHigh>2.0</VersionHigh>
+<VersionLow>1.0</VersionLow>
+<AccessProcedure>1.0</AccessProcedure>
+<LoginURL>https://jard-sur-mer.gcuf.fr/intercept.php?res=wispr&amp;uamip=192.168.182.1&amp;uamport=3990&amp;challenge=1fe9f72161629a44d7f2285a980a620c</LoginURL>
+<AbortLoginURL>http://192.168.182.1:3990/abort</AbortLoginURL>
+<EAPMsg>AQEABQE=</EAPMsg>
+</Redirect>
+</WISPAccessGatewayParam>
+-->
+
+</HTML>
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr/intercept.php?res=already&uamip=192.168.182.1&uamport=3990&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559460200000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&redirurl=&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=CD3F3627EB6EBF7A7A4E270E4D8EA5C8
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 14:33:57 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-type: text/html; charset=UTF-8
+  content-length: 1646
+  date: Sat, 01 Aug 2026 14:33:57 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr:3991/logon?username=350947A1&password=***REDACTED***&userurl=http://connectivitycheck.gstatic.com/generate_204
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  content-type: text/html; charset=utf-8;
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 14:33:44 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-length: 1646
+  date: Sat, 01 Aug 2026 14:33:44 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET http://192.168.182.1:3990/prelogin
+Headers requêtes:
+DNS Résolu: 192.168.182.1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  Connection: close
+  Pragma: no-cache
+  Expires: Fri, 01 Jan 1971 00:00:00 GMT
+  Cache-Control: no-cache, must-revalidate
+  P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+  Location: https://jard-sur-mer.gcuf.fr/intercept.php?res=already&uamip=192.168.182.1&uamport=3990&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559460200000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&redirurl=&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=CD3F3627EB6EBF7A7A4E270E4D8EA5C8
+  Content-Type: text/html; charset=UTF-8
+  Content-Length: 495
+Corps réponse (extrait):
+<HTML><BODY><H2>Browser error!</H2>Browser does not support redirects!</BODY>
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<WISPAccessGatewayParam
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.wballiance.net/wispr_2_0.xsd">
+<AuthenticationPollReply>
+<MessageType>140</MessageType>
+<ResponseCode>102</ResponseCode>
+<ReplyMessage>Already logged on</ReplyMessage>
+</AuthenticationPollReply>
+</WISPAccessGatewayParam>
+-->
+
+</HTML>
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+POST https://jard-sur-mer.gcuf.fr/intercept.php
+Headers requêtes:
+  Content-Type: application/x-www-form-urlencoded
+  Referer: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1fe9f72161629a44d7f2285a980a620c&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559460200000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=83D42FD04F4B533DEA8A9B8A885805C1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  location: https://jard-sur-mer.gcuf.fr:3991/logon?username=350947A1&password=c15ad0419f55f4fe33b7&userurl=http://connectivitycheck.gstatic.com/generate_204
+  content-type: text/html; charset=UTF-8
+  content-length: 0
+  date: Sat, 01 Aug 2026 14:33:10 GMT
+Corps réponse (extrait):
+
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1fe9f72161629a44d7f2285a980a620c&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559460200000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=83D42FD04F4B533DEA8A9B8A885805C1
+Headers requêtes:
+
+=== RÉPONSE HTTP 200 ===
+Headers réponses:
+  expires: Tue, 01 Jan 2000 00:00:00 GMT
+  last-modified: Sat, 01 Aug 2026 14:33:10 GMT
+  cache-control: post-check=0, pre-check=0
+  pragma: no-cache
+  content-type: text/html; charset=UTF-8
+  content-length: 5512
+  date: Sat, 01 Aug 2026 14:33:10 GMT
+Corps réponse (extrait):
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Identification on the captive portal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/intercept.css" type="text/css">
+	<link rel="icon" href="/images/favicon-48.ico" type="image/ico">
+	<script type="text/javascript">
+	function doOnLoad(result, userurl, redirurl, adminurl, timeleft) {
+		if ((result === 1) || (result === 4)) {	// success or already
+			var url;
+			if (adminurl !== '') {
+				url = adminurl;
+			} else if (redirurl !== '') {
+				url = redirurl;
+			} else if (userurl !== '') {
+				url = userurl;
+			}
+			if (typeof url !== 'undefined') {
+				var win = window.open('https://jard-sur-mer.gcuf.fr/status.php', '_blank');
+				if ((win === null) || (typeof win === 'undefined')) { // Pop-up blocked
+					window.location = 'https://jard-sur-mer.gcuf.fr/status.php';
+				} else {
+					window.location = url;
+				}
+			
+
+
+-----------------------------------
+
+=== REQUÊTE HTTP ===
+GET http://192.168.182.1:3990/prelogin
+Headers requêtes:
+DNS Résolu: 192.168.182.1
+
+=== RÉPONSE HTTP 302 ===
+Headers réponses:
+  Connection: close
+  Pragma: no-cache
+  Expires: Fri, 01 Jan 1971 00:00:00 GMT
+  Cache-Control: no-cache, must-revalidate
+  P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+  Location: https://jard-sur-mer.gcuf.fr/intercept.php?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1fe9f72161629a44d7f2285a980a620c&called=30-A6-12-18-56-2B&mac=F6-9C-C7-8C-CE-43&ip=192.168.182.95&nasid=jard-sur-mer.gcuf.fr&sessionid=178559460200000020&ssl=https%3a%2f%2f1.0.0.1%3a3991%2f&userurl=http%3a%2f%2fconnectivitycheck.gstatic.com%2fgenerate_204&md=83D42FD04F4B533DEA8A9B8A885805C1
+  Content-Type: text/html; charset=UTF-8
+  Content-Length: 771
+Corps réponse (extrait):
+<HTML><BODY><H2>Browser error!</H2>Browser does not support redirects!</BODY>
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<WISPAccessGatewayParam
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.wballiance.net/wispr_2_0.xsd">
+<Redirect>
+<MessageType>100</MessageType>
+<ResponseCode>0</ResponseCode>
+<VersionHigh>2.0</VersionHigh>
+<VersionLow>1.0</VersionLow>
+<AccessProcedure>1.0</AccessProcedure>
+<LoginURL>https://jard-sur-mer.gcuf.fr/intercept.php?res=wispr&amp;uamip=192.168.182.1&amp;uamport=3990&amp;challenge=1fe9f72161629a44d7f2285a980a620c</LoginURL>
+<AbortLoginURL>http://192.168.182.1:3990/abort</AbortLoginURL>
+<EAPMsg>AQEABQE=</EAPMsg>
+</Redirect>
+</WISPAccessGatewayParam>
+-->
+
+</HTML>
+
+
+
+-----------------------------------
+

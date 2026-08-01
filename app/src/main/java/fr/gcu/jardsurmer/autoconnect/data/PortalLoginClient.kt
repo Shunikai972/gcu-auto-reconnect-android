@@ -21,7 +21,7 @@ object PortalLoginClient {
     private const val CHECK_URL = "http://connectivitycheck.gstatic.com/generate_204"
     private const val PORTAL_HOST = "jard-sur-mer.gcuf.fr"
 
-    fun login(context: Context, network: Network?, credentials: Credentials?): LoginResult {
+    fun login(context: Context, network: Network?, credentials: Credentials?, forceRelogin: Boolean = false): LoginResult {
         val now = System.currentTimeMillis()
         if (network == null) {
             val result = LoginResult.Failure("Aucun Wi-Fi actif. En attente du Wi-Fi GCU.", isWaiting = true)
@@ -49,8 +49,42 @@ object PortalLoginClient {
                 @Suppress("DEPRECATION")
                 ConnectivityManager.setProcessDefaultNetwork(network)
             }
+        } catch (t: Throwable) {
+            LogRepository.addLog(context, LogEntry(timestamp = now, message = "Socket process binding: fallback vers socketFactory (${t.localizedMessage ?: t.javaClass.simpleName})", isSuccess = false))
+        }
+
+        var lastResult: LoginResult = LoginResult.Failure("Échec initial")
+        val maxAttempts = if (forceRelogin) 4 else 3
+
+        for (attempt in 1..maxAttempts) {
+            lastResult = executeSingleLoginAttempt(context, network, credentials, forceRelogin && (attempt == 1), now)
+            if (lastResult is LoginResult.Success) {
+                break
+            }
+            if (attempt < maxAttempts) {
+                try { Thread.sleep(2500L) } catch (_: InterruptedException) {}
+            }
+        }
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                cm?.bindProcessToNetwork(null)
+            } else {
+                @Suppress("DEPRECATION")
+                ConnectivityManager.setProcessDefaultNetwork(null)
+            }
         } catch (_: Throwable) {}
 
+        return lastResult
+    }
+
+    private fun executeSingleLoginAttempt(
+        context: Context,
+        network: Network,
+        credentials: Credentials,
+        skipOnlineCheck: Boolean,
+        now: Long
+    ): LoginResult {
         var preloginOk = false
         var formOk = false
         var postOk = false
@@ -61,9 +95,9 @@ object PortalLoginClient {
         try {
             val dnsResolver = DnsResolver(context, network)
             val clientBuilder = OkHttpClient.Builder()
-                .connectTimeout(12, TimeUnit.SECONDS)
-                .readTimeout(12, TimeUnit.SECONDS)
-                .writeTimeout(12, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
                 .dns(dnsResolver)
                 .followRedirects(false)
                 .followSslRedirects(false)
@@ -71,8 +105,8 @@ object PortalLoginClient {
             network.socketFactory.let { clientBuilder.socketFactory(it) }
             val client = clientBuilder.build()
 
-            // Step 0: Check if Internet is already working
-            if (isOnline(client)) {
+            // Step 0: Check if Internet is already working (unless skipped for forced refresh)
+            if (!skipOnlineCheck && isOnline(client)) {
                 http204Ok = true
                 val result = LoginResult.Success("Connexion Internet déjà active sur le Wi-Fi GCU.")
                 LogRepository.addLog(
@@ -228,19 +262,10 @@ object PortalLoginClient {
                 )
             )
             return failure
-        } finally {
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    cm?.bindProcessToNetwork(null)
-                } else {
-                    @Suppress("DEPRECATION")
-                    ConnectivityManager.setProcessDefaultNetwork(null)
-                }
-            } catch (_: Throwable) {}
         }
     }
 
-    private fun isOnline(client: OkHttpClient): Boolean {
+    fun isOnline(client: OkHttpClient): Boolean {
         return try {
             val req = Request.Builder().url(CHECK_URL).get().build()
             val resp = client.newCall(req).execute()

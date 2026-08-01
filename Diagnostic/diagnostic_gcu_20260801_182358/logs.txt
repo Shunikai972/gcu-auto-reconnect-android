@@ -1,0 +1,68 @@
+=== GCU AUTO CONNEXION LOGS ===
+Exporté le: 2026-08-01 18:23:58
+
+2026-08-01 18:23:56 - Wi-Fi non GCU détecté. En attente du réseau 192.168.182.x.
+
+2026-08-01 18:23:55 - Wi-Fi non GCU détecté. En attente du réseau 192.168.182.x.
+
+2026-08-01 18:22:31 - Aucun Wi-Fi actif. En attente du Wi-Fi GCU.
+
+2026-08-01 18:21:03 - Échec temporaire de la connexion GCU (SocketException).
+  Challenge: f94d2ec4be2ac1792aee419803c8aa33
+  Détail: socket failed: ENONET (Machine is not on the network)
+
+2026-08-01 18:12:31 - Connexion acceptée par ALCASAR. Accès Internet validé.
+  Challenge: 164f2d8dded6aeaa61752f65e3af30c1
+
+2026-08-01 18:07:35 - Connexion acceptée par ALCASAR. Accès Internet validé.
+  Challenge: 164f2d8dded6aeaa61752f65e3af30c1
+
+2026-08-01 17:34:08 - Échec temporaire de la connexion GCU (SocketException).
+  Détail: Binding socket to network 156 failed: EPERM (Operation not permitted)
+
+2026-08-01 17:03:22 - Échec temporaire de la connexion GCU (SocketException).
+  Détail: Binding socket to network 156 failed: EPERM (Operation not permitted)
+
+2026-08-01 18:04:08 - Échec temporaire de la connexion GCU (SocketException).
+  Détail: Binding socket to network 156 failed: EPERM (Operation not permitted)
+
+2026-08-01 17:04:07 - Échec temporaire de la connexion GCU (SocketException).
+  Détail: socket failed: ENONET (Machine is not on the network)
+
+2026-08-01 17:00:00 - Connexion Internet déjà active sur le Wi-Fi GCU.
+
+2026-08-01 16:53:22 - Connexion Internet déjà active sur le Wi-Fi GCU.
+
+2026-08-01 16:51:23 - Le portail GCU ne répond pas encore. Nouvel essai automatique plus tard.
+  Challenge: 1d66cead71dce2a89de46f912de2ced0
+  Détail: Failed to connect to jard-sur-mer.gcuf.fr/188.92.70.128:3991
+
+2026-08-01 16:50:00 - Connexion Internet déjà active sur le Wi-Fi GCU.
+
+2026-08-01 16:49:06 - Connexion Internet déjà active sur le Wi-Fi GCU.
+
+2026-08-01 16:43:09 - La vérification HTTPS du portail a échoué.
+  Détail: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
+
+2026-08-01 16:41:47 - Échec temporaire de la connexion GCU (SocketException).
+  Détail: socket failed: ENONET (Machine is not on the network)
+
+2026-08-01 16:40:00 - Connexion Internet déjà active sur le Wi-Fi GCU.
+
+2026-08-01 16:34:05 - Connexion Internet déjà active sur le Wi-Fi GCU.
+
+2026-08-01 16:32:36 - Connexion acceptée par ALCASAR. Accès Internet validé.
+  Challenge: 1fe9f72161629a44d7f2285a980a620c
+
+2026-08-01 16:33:22 - Échec temporaire de la connexion GCU (IllegalArgumentException).
+  Détail: Formulaire de connexion introuvable dans la page
+
+2026-08-01 16:31:54 - Échec temporaire de la connexion GCU (SocketException).
+  Détail: socket failed: ENONET (Machine is not on the network)
+
+2026-08-01 16:30:00 - Connexion Internet déjà active sur le Wi-Fi GCU.
+
+2026-08-01 16:26:44 - Connexion Internet déjà active sur le Wi-Fi GCU.
+
+2026-08-01 16:26:44 - Connexion Internet déjà active sur le Wi-Fi GCU.
+

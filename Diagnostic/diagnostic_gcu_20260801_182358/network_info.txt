@@ -1,0 +1,3 @@
+=== INFOS RÉSEAU ===
+Wi-Fi Détecté: true
+Est candidat GCU (192.168.182.x): false
